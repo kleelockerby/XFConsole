@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\XFConsole.Shared\XFConsole.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="OneStream.SharedCommonBase">
+      <HintPath>..\..\..\..\XF\Source\Client\Web\OneStreamWebUI\Client\bin\Debug\net6.0\wwwroot\_framework\OneStream.SharedCommonBase.dll</HintPath>
+    </Reference>
+    <Reference Include="OneStream.SharedWcfContract">
+      <HintPath>..\..\..\..\XF\Source\Client\Web\OneStreamWebUI\Client\bin\Debug\net6.0\wwwroot\_framework\OneStream.SharedWcfContract.dll</HintPath>
+    </Reference>
+    <Reference Include="OneStreamWebUI.Shared">
+      <HintPath>..\..\..\..\XF\Source\Client\Web\OneStreamWebUI\Client\bin\Debug\net6.0\wwwroot\_framework\OneStreamWebUI.Shared.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
