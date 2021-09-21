@@ -38,6 +38,7 @@ namespace XFConsole.Shared
                         {
                             oneStreamModel.AuthenticationResult = logonResponseDto.AuthenticationResult;
                             oneStreamModel.User.UserPreferences = logonResponseDto.UserPreferences;
+                            oneStreamModel.SI = logonResponseDto.SI;
 
                             XFBaseSiRequestDto siDto = new XFBaseSiRequestDto(logonResponseDto.SI);
                             HttpResponseMessage applicationsResponse = await this.Http?.PostAsJsonAsync<XFBaseSiRequestDto>(XFWebGeneralConstants.GetApplicationsUrl, siDto);
@@ -46,6 +47,7 @@ namespace XFConsole.Shared
                                 XFApplicationsResponseDto xfApplicationsResponseDto = await applicationsResponse?.Content?.ReadFromJsonAsync<XFApplicationsResponseDto>();
                                 if (xfApplicationsResponseDto != null)
                                 {
+                                    oneStreamModel.ApplicationData.Applications = xfApplicationsResponseDto.Applications;
                                     if (xfApplicationsResponseDto.Applications?.Count == 1)
                                     {
                                         oneStreamModel.SelectedApplication = xfApplicationsResponseDto.Applications[0];
@@ -77,8 +79,8 @@ namespace XFConsole.Shared
 
                 if (openApplicationResponseDto != null)
                 {
-                    oneStreamModel.ApplicationData.DashboardProfiles = openApplicationResponseDto.DashboardProfiles;
-                    oneStreamModel.ApplicationData.CubeViewProfiles = openApplicationResponseDto.CubeViewProfiles;
+                    oneStreamModel.ApplicationData.DashboardProfileInfos = openApplicationResponseDto.DashboardProfiles;
+                    oneStreamModel.ApplicationData.CubeViewProfileInfos = openApplicationResponseDto.CubeViewProfiles;
                     oneStreamModel.ApplicationData.WorkflowInitInfo = openApplicationResponseDto.WorkflowInitInfo;
                     oneStreamModel.ApplicationData.AppProperties = openApplicationResponseDto.AppProperties;
                     oneStreamModel.ApplicationData.UserAppSettings = openApplicationResponseDto.UserAppSettings;

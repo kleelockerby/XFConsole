@@ -5,9 +5,9 @@ using OneStreamWebUI.Shared;
 
 namespace XFConsole.Shared
 {
-    public static class AuthenticationHelper
+    public static class HttpClientHelper
     {
-        public static XFLogonRequestDto GetLogonHelper(string userName, string password, string initalSelectedApplicationName)
+        public static XFLogonRequestDto GetLogon(string userName, string password, string initalSelectedApplicationName)
         {
             Guid applicationUniqueID = new Guid(GetSelectedApplicationStringId(initalSelectedApplicationName));
             XFApplication application = new XFApplication(applicationUniqueID, initalSelectedApplicationName, "", "", "");
@@ -16,10 +16,16 @@ namespace XFConsole.Shared
             return logonModel;
         }
 
-        public static XFOpenApplicationRequestDto GetOpenApplicationHelper(string applicationName, SessionInfo si)
+        public static XFOpenApplicationRequestDto GetOpenApplication(string applicationName, SessionInfo si)
         {
             XFOpenApplicationRequestDto openApplicationRequestDto = new XFOpenApplicationRequestDto(si, applicationName);
             return openApplicationRequestDto;
+        }
+
+        public static XFGetDashboardsInProfileRequestDto GetDashboardsInProfileRequest(SessionInfo si, Guid dashboardProfileId)
+        {
+            XFGetDashboardsInProfileRequestDto getDashboardsInProfileRequestDto = new XFGetDashboardsInProfileRequestDto(si, false, dashboardProfileId, DashboardUIPlatformType.WpfOrSilverlight, true);
+            return getDashboardsInProfileRequestDto;
         }
 
         public static string GetSelectedApplicationStringId(string selectedApplicationName)
@@ -39,8 +45,17 @@ namespace XFConsole.Shared
                 case "MarketPlace":
                     selectedApplicationId = "290f545a-44fc-4e01-b0aa-ea2d322825a9";
                     break;
+                case "OneStream_KL":
+                    selectedApplicationId = "cde8be57-5274-4812-9b3e-9034292ffc69";
+                    break;
+                case "SalesPlan":
+                    selectedApplicationId = "0ae54d5a-0976-43bd-be98-6ceb58b691f8";
+                    break;
                 case "OneStream_Planning":
                     selectedApplicationId = "290f545a-44fc-4e01-b0aa-ea2d322825a9";
+                    break;
+                case "Walmart POC Dev":
+                    selectedApplicationId = "f81d6861-f291-452a-af21-97c9ece02248";
                     break;
             }
             return selectedApplicationId;

@@ -26,15 +26,8 @@ namespace XFConsole.Shared
         public AuthenticationResult AuthenticationResult { get; set; }
         public XFOneStreamApplicationData ApplicationData { get; set; }
 
-        /*public List<XFApplication> Applications { get; set; }
-        public List<CubeViewProfileInfo> CubeViewProfiles { get; set; }
-        public List<DashboardProfileInfo> DashboardProfiles { get; set; }
-        public WorkflowInitInfo WorkflowInitInfo { get; set; }
-        public AppPropsSummaryInfo AppProperties { get; set; }
-        public UserAppSettings UserAppSettings { get; set; }
-        public PovDisplayInfo PovDisplayInfo { get; set; }
-        public AjaxFileAndFolderHierarchy AppDocumentsHierarchy { get; set; }
-        public TimeDimAppInfo TimeDimAppInfo { get; set; }*/
+        public DashboardProfileInfo SelectedDashboardProfileInfo { get; set; }
+        public List<Dashboard> DashboardsInPofile { get; set; }
 
         public XFOneStream() { }
 
@@ -42,7 +35,9 @@ namespace XFConsole.Shared
         {
             this.User = new XFUser(userName, password);
             this.selectedApplication = selectedApplication;
-            
+            this.ApplicationData = new XFOneStreamApplicationData();
+            this.SelectedDashboardProfileInfo = new DashboardProfileInfo();
+            this.DashboardsInPofile = new List<Dashboard>();
         }
     }
 }

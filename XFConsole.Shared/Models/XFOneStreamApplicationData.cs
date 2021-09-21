@@ -8,8 +8,8 @@ namespace XFConsole.Shared
     public class XFOneStreamApplicationData
     {
         public List<XFApplication> Applications { get; set; }
-        public List<CubeViewProfileInfo> CubeViewProfiles { get; set; }
-        public List<DashboardProfileInfo> DashboardProfiles { get; set; }
+        public List<CubeViewProfileInfo> CubeViewProfileInfos { get; set; }
+        public List<DashboardProfileInfo> DashboardProfileInfos { get; set; }
         public WorkflowInitInfo WorkflowInitInfo { get; set; }
         public AppPropsSummaryInfo AppProperties { get; set; }
         public UserAppSettings UserAppSettings { get; set; }
@@ -20,15 +20,15 @@ namespace XFConsole.Shared
         public XFOneStreamApplicationData()
         {
             this.Applications = new List<XFApplication>();
-            this.CubeViewProfiles = new List<CubeViewProfileInfo>();
-            this.DashboardProfiles = new List<DashboardProfileInfo>();
+            this.CubeViewProfileInfos = new List<CubeViewProfileInfo>();
+            this.DashboardProfileInfos = new List<DashboardProfileInfo>();
         }
 
         public void ClearData()
         {
             this.Applications.Clear();
-            this.CubeViewProfiles.Clear();
-            this.DashboardProfiles.Clear();
+            this.CubeViewProfileInfos.Clear();
+            this.DashboardProfileInfos.Clear();
             this.WorkflowInitInfo = null;
             this.AppProperties = null;
             this.UserAppSettings = null;

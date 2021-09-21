@@ -40,6 +40,8 @@ namespace XFConsole.Desktop
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.lvCubeViewProfiles = new System.Windows.Forms.ListView();
+            this.lblDashboards = new System.Windows.Forms.Label();
+            this.lvDashboards = new System.Windows.Forms.ListView();
             this.SuspendLayout();
             // 
             // lblUserName
@@ -95,7 +97,7 @@ namespace XFConsole.Desktop
             this.lvApplications.TabIndex = 2;
             this.lvApplications.UseCompatibleStateImageBehavior = false;
             this.lvApplications.View = System.Windows.Forms.View.Details;
-            this.lvApplications.SelectedIndexChanged += new System.EventHandler(this.lvApplications_SelectedIndexChanged);
+            this.lvApplications.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.lvApplications_ItemSelectionChanged);
             // 
             // btnLogon
             // 
@@ -117,7 +119,6 @@ namespace XFConsole.Desktop
             this.btnOpenApplication.TabIndex = 3;
             this.btnOpenApplication.Text = "Open Application";
             this.btnOpenApplication.UseVisualStyleBackColor = true;
-            //this.btnOpenApplication.Click += new System.EventHandler(this.btnOpenApplication_Click);
             // 
             // lvDashboardProfiles
             // 
@@ -134,6 +135,7 @@ namespace XFConsole.Desktop
             this.lvDashboardProfiles.TabIndex = 4;
             this.lvDashboardProfiles.UseCompatibleStateImageBehavior = false;
             this.lvDashboardProfiles.View = System.Windows.Forms.View.Details;
+            this.lvDashboardProfiles.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.lvDashboardProfiles_ItemSelectionChanged);
             // 
             // label2
             // 
@@ -171,11 +173,39 @@ namespace XFConsole.Desktop
             this.lvCubeViewProfiles.UseCompatibleStateImageBehavior = false;
             this.lvCubeViewProfiles.View = System.Windows.Forms.View.Details;
             // 
+            // lblDashboards
+            // 
+            this.lblDashboards.AutoSize = true;
+            this.lblDashboards.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblDashboards.Location = new System.Drawing.Point(483, 475);
+            this.lblDashboards.Name = "lblDashboards";
+            this.lblDashboards.Size = new System.Drawing.Size(144, 17);
+            this.lblDashboards.TabIndex = 8;
+            this.lblDashboards.Text = "Dashboards In Profile";
+            // 
+            // lvDashboards
+            // 
+            this.lvDashboards.Enabled = false;
+            this.lvDashboards.FullRowSelect = true;
+            this.lvDashboards.GridLines = true;
+            this.lvDashboards.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
+            this.lvDashboards.HideSelection = false;
+            this.lvDashboards.LabelWrap = false;
+            this.lvDashboards.Location = new System.Drawing.Point(483, 509);
+            this.lvDashboards.MultiSelect = false;
+            this.lvDashboards.Name = "lvDashboards";
+            this.lvDashboards.Size = new System.Drawing.Size(700, 181);
+            this.lvDashboards.TabIndex = 9;
+            this.lvDashboards.UseCompatibleStateImageBehavior = false;
+            this.lvDashboards.View = System.Windows.Forms.View.Details;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1231, 510);
+            this.ClientSize = new System.Drawing.Size(1231, 702);
+            this.Controls.Add(this.lvDashboards);
+            this.Controls.Add(this.lblDashboards);
             this.Controls.Add(this.lvCubeViewProfiles);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -208,5 +238,7 @@ namespace XFConsole.Desktop
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ListView lvCubeViewProfiles;
+        private System.Windows.Forms.Label lblDashboards;
+        private System.Windows.Forms.ListView lvDashboards;
     }
 }

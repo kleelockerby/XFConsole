@@ -17,11 +17,10 @@ namespace XFConsole.Desktop
 {
     public partial class Form1 : Form
     {
-        private LogonClient logonClient = null;
-        private List<XFApplication> xfApplications = null;
         private string initialSelectedApplicationName = "GolfStreamDemo_v36";
         private XFOneStream oneStreamModel = null;
         private AuthenticationDataAccess authenticationDataAccess = null;
+        private HttpClient httpClient = new HttpClient();
 
         public Form1()
         {
@@ -46,13 +45,13 @@ namespace XFConsole.Desktop
 
         private async void btnLogon_Click(object sender, EventArgs e)
         {
-            authenticationDataAccess = AuthenticationDataAccess.Create(new HttpClient());
-            XFLogonRequestDto logonModel = AuthenticationHelper.GetLogonHelper(txtUserName.Text, txtPassword.Text, initialSelectedApplicationName);
+            authenticationDataAccess = AuthenticationDataAccess.Create(this.httpClient);
+            XFLogonRequestDto logonModel = HttpClientHelper.GetLogon(txtUserName.Text, txtPassword.Text, initialSelectedApplicationName);
             this.oneStreamModel = await authenticationDataAccess.GetLogonAsync(logonModel);
 
             if (oneStreamModel.ApplicationData.Applications?.Count > 0)
             {
-                lvApplications.Items.Clear();
+                //lvApplications.Items.Clear();
                 foreach (XFApplication application in this.oneStreamModel.ApplicationData.Applications)
                 {
                     ListViewItem lvItem = new ListViewItem(new string[] { application.Name });
@@ -64,7 +63,7 @@ namespace XFConsole.Desktop
 
         private async void OpenNewApplication(string selectedApplicationName, SessionInfo si)
         {
-            XFOpenApplicationRequestDto openApplicationRequestDto = AuthenticationHelper.GetOpenApplicationHelper(selectedApplicationName, si);
+            XFOpenApplicationRequestDto openApplicationRequestDto = HttpClientHelper.GetOpenApplication(selectedApplicationName, si);
             await authenticationDataAccess.OpenApplicationAsync(openApplicationRequestDto, this.oneStreamModel);
             GetDashboardsProfileInfo();
             GetCubeViewsProfileInfo();
@@ -73,7 +72,7 @@ namespace XFConsole.Desktop
         private void GetDashboardsProfileInfo()
         {
             lvDashboardProfiles.Items.Clear();
-            foreach (DashboardProfileInfo dashboardProfileInfo in logonClient.DashboardProfiles)
+            foreach (DashboardProfileInfo dashboardProfileInfo in this.oneStreamModel.ApplicationData.DashboardProfileInfos)
             {
                 DashboardProfile dashboardProfile = dashboardProfileInfo.Profile;
                 string nameOrDescription = dashboardProfile.NameOrDescription;
@@ -90,7 +89,7 @@ namespace XFConsole.Desktop
         private void GetCubeViewsProfileInfo()
         {
             lvCubeViewProfiles.Items.Clear();
-            foreach (CubeViewProfileInfo cubeViewProfileInfo in logonClient.CubeViewProfiles)
+            foreach (CubeViewProfileInfo cubeViewProfileInfo in this.oneStreamModel.ApplicationData.CubeViewProfileInfos)
             {
                 CubeViewProfile cubeViewProfile = cubeViewProfileInfo.Profile;
                 string nameOrDescription = cubeViewProfile.NameOrDescription;
@@ -104,43 +103,39 @@ namespace XFConsole.Desktop
             lvCubeViewProfiles.Enabled = true;
         }
 
-        private void lvApplications_SelectedIndexChanged(object sender, EventArgs e)
+        private void lvApplications_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
-            Guid applicationUniqueID = new Guid(AuthenticationHelper.GetSelectedApplicationStringId(lvApplications.SelectedItems[0].Text));
-            XFApplication application = new XFApplication(applicationUniqueID, lvApplications.SelectedItems[0].Text, "", "", "");
-            this.oneStreamModel.SelectedApplication = application;
+            if (e.IsSelected == true)
+            {
+                int selectedItemIndex = e.ItemIndex;
+                string appName = lvApplications.Items[selectedItemIndex].Text;
+                string id = HttpClientHelper.GetSelectedApplicationStringId(appName);
+                Guid applicationUniqueID = new Guid(id);
+                XFApplication application = new XFApplication(applicationUniqueID, lvApplications.Items[selectedItemIndex].Text, "", "", "");
+                this.oneStreamModel.SelectedApplication = application;
 
-            // TODO: Fire Application Changed Event;
+                //TODO: OnApplicationChanged()
+                OpenNewApplication(this.oneStreamModel.SelectedApplication.Name, this.oneStreamModel.SI);
+            }
+        }
 
-            OpenNewApplication(this.oneStreamModel.SelectedApplication.Name, this.oneStreamModel.SI);
+        private void lvDashboardProfiles_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
+            if (e.IsSelected == true)
+            {
+                int selectedItemIndex = e.ItemIndex;
+                this.oneStreamModel.SelectedDashboardProfileInfo = this.oneStreamModel.ApplicationData.DashboardProfileInfos[selectedItemIndex];
+                XFGetDashboardsInProfileRequestDto getDashboardsInProfileRequestDto = new XFGetDashboardsInProfileRequestDto(this.oneStreamModel.SI, false, this.oneStreamModel.SelectedDashboardProfileInfo.Profile.UniqueID, DashboardUIPlatformType.WpfOrSilverlight, true);
+                GetDashboardsInProfile(getDashboardsInProfileRequestDto);
+            }
+        }
+
+        private async void GetDashboardsInProfile(XFGetDashboardsInProfileRequestDto getDashboardsInProfileRequestDto)
+        {
+            DashboardDataAccess dataAccess = DashboardDataAccess.Create(this.httpClient);
+            await dataAccess.GetDashboardsInProfile(getDashboardsInProfileRequestDto, this.oneStreamModel);
+
         }
 
     }
 }
-
-
-
-/*
-
-
-
-
-
-private async void btnOpenApplication_Click(object sender, EventArgs e)
-        {
-            this.selectedApplication = lvApplications.SelectedItems[0].SubItems[0].Text;
-            
-        }
-
-
-        private async void OnSelectedApplicationChanged()
-        {
-            await this.logonClient.OpenApplicationAsync(this.selectedApplication);
-
-            if (logonClient.DashboardProfiles?.Count > 0)
-            {
-                GetDashboardsProfileInfo();
-                GetCubeViewsProfileInfo();
-            }
-        }
-*/
