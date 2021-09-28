@@ -13,8 +13,9 @@ namespace XFConsole.Shared
     {
         private HttpClient Http;
         private static AuthenticationDataAccess authenticationDataAccess;
+        private List<XFApplication> applications = null;
 
-        private AuthenticationDataAccess() {}
+        private AuthenticationDataAccess() { }
 
         public static AuthenticationDataAccess Create(HttpClient httpClient)
         {
@@ -23,11 +24,19 @@ namespace XFConsole.Shared
             return authenticationDataAccess;
         }
 
-        public async Task<XFOneStream> GetLogonAsync(XFLogonRequestDto logonModel)
+        public async Task<XFAuthenticationData> GetLogonAsync(string userName, string password, string selectedApplicationName)
         {
             try
             {
-                XFOneStream oneStreamModel = new XFOneStream(logonModel.UserName, logonModel.PasswordOrToken, logonModel.SelectedApplication);
+                XFAuthenticationData authenticationData = new XFAuthenticationData(userName, password, selectedApplicationName);
+                Guid xfAppGuid = new Guid(HttpClientHelper.GetSelectedApplicationStringId(authenticationData.SelectedApplicationName));
+                XFApplication selectedApplication = new XFApplication(xfAppGuid, selectedApplicationName, "", "", "");
+
+                XFLogonRequestDto logonModel = new XFLogonRequestDto() { ClientModuleType = ClientModuleType.Web, ClientXFVersion = XFVersionInfo.XFVersion };
+                logonModel.UserName = userName;
+                logonModel.PasswordOrToken = password;
+                logonModel.SelectedApplication = selectedApplication;
+
                 HttpResponseMessage responseMessage = await this.Http?.PostAsJsonAsync<XFLogonRequestDto>(XFWebGeneralConstants.LogonUrl, logonModel);
                 if (responseMessage != null && responseMessage.IsSuccessStatusCode)
                 {
@@ -36,28 +45,13 @@ namespace XFConsole.Shared
                     {
                         if ((logonResponseDto.AuthenticationResult == AuthenticationResult.Success) && (logonResponseDto.SI != null) && (logonResponseDto.SI.IsAuthenticated))
                         {
-                            oneStreamModel.AuthenticationResult = logonResponseDto.AuthenticationResult;
-                            oneStreamModel.User.UserPreferences = logonResponseDto.UserPreferences;
-                            oneStreamModel.SI = logonResponseDto.SI;
-
-                            XFBaseSiRequestDto siDto = new XFBaseSiRequestDto(logonResponseDto.SI);
-                            HttpResponseMessage applicationsResponse = await this.Http?.PostAsJsonAsync<XFBaseSiRequestDto>(XFWebGeneralConstants.GetApplicationsUrl, siDto);
-                            if (responseMessage != null && responseMessage.IsSuccessStatusCode)
-                            {
-                                XFApplicationsResponseDto xfApplicationsResponseDto = await applicationsResponse?.Content?.ReadFromJsonAsync<XFApplicationsResponseDto>();
-                                if (xfApplicationsResponseDto != null)
-                                {
-                                    oneStreamModel.ApplicationData.Applications = xfApplicationsResponseDto.Applications;
-                                    if (xfApplicationsResponseDto.Applications?.Count == 1)
-                                    {
-                                        oneStreamModel.SelectedApplication = xfApplicationsResponseDto.Applications[0];
-                                    }
-                                }
-                            }
+                            authenticationData.AuthenticationResult = logonResponseDto.AuthenticationResult;
+                            authenticationData.User.UserPreferences = logonResponseDto.UserPreferences;
+                            authenticationData.SI = logonResponseDto.SI;
                         }
                     }
                 }
-                return oneStreamModel;
+                return authenticationData;
             }
             catch (Exception ex)
             {
@@ -65,9 +59,45 @@ namespace XFConsole.Shared
             }
         }
 
-        public async Task OpenApplicationAsync(XFOpenApplicationRequestDto openApplicationRequestDto, XFOneStream oneStreamModel)
+        public async Task<XFApplicationData> GetApplicationsAsync(XFAuthenticationData authenticationData, string selectedApplicationName)
         {
-            oneStreamModel.ApplicationData.ClearData();
+            try
+            {
+                XFApplicationData applicationData = null;
+                XFBaseSiRequestDto siDto = new XFBaseSiRequestDto(authenticationData.SI);
+                HttpResponseMessage responseMessage = await this.Http?.PostAsJsonAsync<XFBaseSiRequestDto>(XFWebGeneralConstants.GetApplicationsUrl, siDto);
+                if (responseMessage != null && responseMessage.IsSuccessStatusCode)
+                {
+                    XFApplicationsResponseDto xfApplicationsResponseDto = await responseMessage?.Content?.ReadFromJsonAsync<XFApplicationsResponseDto>();
+                    if (xfApplicationsResponseDto != null)
+                    {
+                        if (xfApplicationsResponseDto.Applications?.Count > 0)
+                        {
+                            this.applications = xfApplicationsResponseDto.Applications;
+                            applicationData = new XFApplicationData(this.applications);
+                            applicationData.SelectedApplication = GetSelectedApplication(selectedApplicationName, out int index);
+
+                            if (xfApplicationsResponseDto.Applications?.Count == 1)
+                            {
+                                applicationData.SelectedApplication = xfApplicationsResponseDto.Applications[0];
+                            }
+                        }
+                    }
+                }
+                return applicationData;
+            }
+            catch (Exception ex)
+            {
+                throw new XFException(ex);
+            }
+        }
+
+        public async Task OpenApplicationAsync(SessionInfo si, XFApplicationData applicationData)
+        {
+            Guid xfAppGuid = new Guid(HttpClientHelper.GetSelectedApplicationStringId(applicationData.SelectedApplication.Name));
+            //applicationData.SelectedApplication = new XFApplication(xfAppGuid, selectedApplicationName, "", "", "");
+
+            XFOpenApplicationRequestDto openApplicationRequestDto = new XFOpenApplicationRequestDto(si, applicationData.SelectedApplication.Name);
             HttpResponseMessage responseMessage = await this.Http?.PostAsJsonAsync<XFOpenApplicationRequestDto>(XFWebGeneralConstants.OpenApplicationUrl, openApplicationRequestDto);
             if (responseMessage != null && responseMessage.IsSuccessStatusCode)
             {
@@ -79,16 +109,32 @@ namespace XFConsole.Shared
 
                 if (openApplicationResponseDto != null)
                 {
-                    oneStreamModel.ApplicationData.DashboardProfileInfos = openApplicationResponseDto.DashboardProfiles;
-                    oneStreamModel.ApplicationData.CubeViewProfileInfos = openApplicationResponseDto.CubeViewProfiles;
-                    oneStreamModel.ApplicationData.WorkflowInitInfo = openApplicationResponseDto.WorkflowInitInfo;
-                    oneStreamModel.ApplicationData.AppProperties = openApplicationResponseDto.AppProperties;
-                    oneStreamModel.ApplicationData.UserAppSettings = openApplicationResponseDto.UserAppSettings;
-                    oneStreamModel.ApplicationData.PovDisplayInfo = openApplicationResponseDto.PovDisplayInfo;
-                    oneStreamModel.ApplicationData.AppDocumentsHierarchy = openApplicationResponseDto.AppDocumentsHierarchy;
-                    oneStreamModel.ApplicationData.TimeDimAppInfo = openApplicationResponseDto.TimeDimAppInfo;
+                    applicationData.DashboardProfileInfos = openApplicationResponseDto.DashboardProfiles;
+                    applicationData.CubeViewProfileInfos = openApplicationResponseDto.CubeViewProfiles;
+                    applicationData.WorkflowInitInfo = openApplicationResponseDto.WorkflowInitInfo;
+                    applicationData.AppProperties = openApplicationResponseDto.AppProperties;
+                    applicationData.UserAppSettings = openApplicationResponseDto.UserAppSettings;
+                    applicationData.PovDisplayInfo = openApplicationResponseDto.PovDisplayInfo;
+                    applicationData.AppDocumentsHierarchy = openApplicationResponseDto.AppDocumentsHierarchy;
+                    applicationData.TimeDimAppInfo = openApplicationResponseDto.TimeDimAppInfo;
                 }
             }
+        }
+
+        private XFApplication GetSelectedApplication(string selectedApplicationName, out int selectedIndex)
+        {
+            selectedIndex = -1;
+            XFApplication selectedApp = null;
+            for (int i=0; i < this.applications.Count; i++)
+            {
+                XFApplication xfApplication = this.applications[i];
+                if (this.applications[i].Name == selectedApplicationName)
+                {
+                    selectedIndex = i;
+                    selectedApp = this.applications[i];
+                }
+            }
+            return selectedApp;
         }
     }
 }

@@ -23,19 +23,17 @@ namespace XFConsole.Shared
             return dashboardDataAccess;
         }
 
-        public async Task GetDashboardsInProfile(XFGetDashboardsInProfileRequestDto getDashboardsInProfileRequestDto, XFOneStream oneStreamModel)
+        public async Task<List<Dashboard>> GetDashboardsInProfile(SessionInfo si, Guid dashboardProfileId)
         {
+            List<Dashboard> dashboardsInProfile = null;
+            XFGetDashboardsInProfileRequestDto getDashboardsInProfileRequestDto = new XFGetDashboardsInProfileRequestDto(si, false, dashboardProfileId, DashboardUIPlatformType.WpfOrSilverlight, true);
             HttpResponseMessage responseMessage = await this.Http?.PostAsJsonAsync<XFGetDashboardsInProfileRequestDto>(XFWebGeneralConstants.GetDashboardsInProfileUrl, getDashboardsInProfileRequestDto);
 
             if (responseMessage != null && responseMessage.IsSuccessStatusCode)
             {
-                List<Dashboard> dashboardsInProfile = await responseMessage?.Content?.ReadFromJsonAsync<List<Dashboard>>();
-                if (dashboardsInProfile?.Count > 0)
-                {
-                    oneStreamModel.DashboardsInPofile = dashboardsInProfile;
-                }
+                dashboardsInProfile = await responseMessage?.Content?.ReadFromJsonAsync<List<Dashboard>>();
             }
-            return;
+            return dashboardsInProfile;
         }
     }
 }

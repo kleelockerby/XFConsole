@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace XFConsole.Desktop.UserControls
 {
-    public partial class Dashboards : UserControl
+    public partial class ucLogon : UserControl
     {
-        public Dashboards()
+        public ucLogon()
         {
             InitializeComponent();
         }

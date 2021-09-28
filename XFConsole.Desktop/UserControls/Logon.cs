@@ -18,9 +18,15 @@ namespace XFConsole.Desktop.UserControls
     public partial class Logon : UserControl
     {
         private HttpClient Http;
-        private string initialSelectedApplicationName = "GolfStreamDemo_v36";
+        //private string selectedAppName = "GolfStreamDemo_v36";
 
-        public Logon(HttpClient httpClient, XFOneStream oneStreamModel)
+        public XFAuthenticationData AuthenticationData { get; set; }
+        public XFApplicationData ApplicationData { get; set; }
+
+        public delegate void LogonCompletedHandler(object sender, EventArgs e);
+        public event LogonCompletedHandler LogonCompleted;
+
+        public Logon(HttpClient httpClient)
         {
             InitializeComponent();
             this.Http = httpClient;
@@ -29,7 +35,25 @@ namespace XFConsole.Desktop.UserControls
         private async void btnLogon_Click(object sender, EventArgs e)
         {
             AuthenticationDataAccess authenticationDataAccess = AuthenticationDataAccess.Create(this.Http);
-            XFLogonRequestDto logonModel = HttpClientHelper.GetLogon(txtUserName.Text, txtPassword.Text, initialSelectedApplicationName);
+            this.AuthenticationData = await authenticationDataAccess.GetLogonAsync(txtUserName.Text, txtPassword.Text, txtSelectedAppName.Text);
+            this.ApplicationData = await authenticationDataAccess.GetApplicationsAsync(this.AuthenticationData, txtSelectedAppName.Text);
+            await authenticationDataAccess.OpenApplicationAsync(this.AuthenticationData.SI, this.ApplicationData);
+
+            OnLogonCompleted(new EventArgs());
         }
+
+        private void OnLogonCompleted(EventArgs e)
+        {
+            if (LogonCompleted != null)
+            {
+                LogonCompleted(this, e);
+            }
+        }
+
+        private void btnLogout_Click(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }

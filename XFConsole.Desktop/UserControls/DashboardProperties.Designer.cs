@@ -1,7 +1,7 @@
 ﻿
 namespace XFConsole.Desktop.UserControls
 {
-    partial class Dashboards
+    partial class DashboardProperties
     {
         /// <summary> 
         /// Required designer variable.
@@ -29,32 +29,30 @@ namespace XFConsole.Desktop.UserControls
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
+            this.propertyGridDashboardInfo = new System.Windows.Forms.PropertyGrid();
             this.SuspendLayout();
             // 
-            // label1
+            // propertyGridDashboardInfo
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(457, 275);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(69, 15);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Dashboards";
+            this.propertyGridDashboardInfo.Dock = System.Windows.Forms.DockStyle.Left;
+            this.propertyGridDashboardInfo.Location = new System.Drawing.Point(0, 0);
+            this.propertyGridDashboardInfo.Name = "propertyGridDashboardInfo";
+            this.propertyGridDashboardInfo.Size = new System.Drawing.Size(487, 433);
+            this.propertyGridDashboardInfo.TabIndex = 0;
             // 
-            // Dashboards
+            // DashboardProperties
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.label1);
-            this.Name = "Dashboards";
-            this.Size = new System.Drawing.Size(1000, 601);
+            this.Controls.Add(this.propertyGridDashboardInfo);
+            this.Name = "DashboardProperties";
+            this.Size = new System.Drawing.Size(686, 433);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.PropertyGrid propertyGridDashboardInfo;
     }
 }
