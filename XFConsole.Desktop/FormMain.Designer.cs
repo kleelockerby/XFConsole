@@ -34,7 +34,9 @@ namespace XFConsole.Desktop
             this.lblStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.pnlMain = new System.Windows.Forms.Panel();
+            this.ucLogon1 = new XFConsole.Desktop.UserControls.ucLogon();
             this.statusStrip1.SuspendLayout();
+            this.pnlMain.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip1
@@ -64,11 +66,19 @@ namespace XFConsole.Desktop
             // 
             // pnlMain
             // 
+            this.pnlMain.Controls.Add(this.ucLogon1);
             this.pnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlMain.Location = new System.Drawing.Point(0, 0);
             this.pnlMain.Name = "pnlMain";
             this.pnlMain.Size = new System.Drawing.Size(1184, 699);
             this.pnlMain.TabIndex = 2;
+            // 
+            // ucLogon1
+            // 
+            this.ucLogon1.Location = new System.Drawing.Point(370, 230);
+            this.ucLogon1.Name = "ucLogon1";
+            this.ucLogon1.Size = new System.Drawing.Size(480, 300);
+            this.ucLogon1.TabIndex = 0;
             // 
             // FormMain
             // 
@@ -82,6 +92,7 @@ namespace XFConsole.Desktop
             this.Text = "OneStream XFBrowser";
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.pnlMain.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -93,5 +104,6 @@ namespace XFConsole.Desktop
         private System.Windows.Forms.ToolStripStatusLabel lblStatusLabel;
         private System.Windows.Forms.ToolStripStatusLabel lblStatus;
         private System.Windows.Forms.Panel pnlMain;
+        private UserControls.ucLogon ucLogon1;
     }
 }
