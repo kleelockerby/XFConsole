@@ -1,10 +1,12 @@
-﻿using OneStream.Shared.Common;
-using OneStream.Shared.Wcf;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Net.Http;
 using System.Windows.Forms;
 using XFConsole.Shared;
+using OneStreamWebUI.Shared;
+using OneStream.Shared.Common;
+using OneStream.Shared.Wcf;
 
 namespace XFConsole.Desktop.UserControls
 {
@@ -17,18 +19,30 @@ namespace XFConsole.Desktop.UserControls
         private List<DashboardProfileInfo> dashboardProfileInfos = null;
         private Dictionary<string, Dashboard> dictDashboards = new Dictionary<string, Dashboard>();
 
-        public ucApplications(HttpClient httpClient, SessionInfo si, List<XFApplication> applications, XFApplication selectedApplication, List<DashboardProfileInfo> dashboardProfileInfos)
+        public ucApplications(HttpClient httpClient, List<XFApplication> applications)
         {
             InitializeComponent();
             this.Http = httpClient;
-            this.si = si;
             this.applications = applications;
-            this.selectedApplication = selectedApplication;
-            this.dashboardProfileInfos = dashboardProfileInfos;
         }
 
-        public void ShowApplications()
+        public async Task<XFApplication> OpenApplicationAsync(SessionInfo si, string selectedApplicationName)
         {
+            XFApplication selectedApplication = null;
+            ApplicationDataAccess applicationDataAccess = ApplicationDataAccess.Create(this.Http);
+            XFOpenApplicationResponseDto openApplicationResponseDto = await applicationDataAccess.OpenApplicationAsync(si, selectedApplicationName);
+            if (openApplicationResponseDto != null)
+            {
+                this.si = openApplicationResponseDto.SessionInfo;
+                selectedApplication = applicationDataAccess.GetSelectedApplication(selectedApplicationName, this.applications, out int index);
+                dashboardProfileInfos = openApplicationResponseDto.DashboardProfiles;
+            }
+            return selectedApplication;
+        }
+
+        public void ShowApplications(XFApplication selectedApplication)
+        {
+            this.selectedApplication = selectedApplication;
             lvApplications.Columns.Add(new ColumnHeader() { Name = "ApplicationName", Text = "Applications", Width = lvApplications.Width - 5 });
             foreach( XFApplication application in this.applications)
             {

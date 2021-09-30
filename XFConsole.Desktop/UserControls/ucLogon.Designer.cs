@@ -62,7 +62,7 @@ namespace XFConsole.Desktop.UserControls
             this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 318F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 320F));
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.txtUserName, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.label2, 0, 1);
@@ -97,7 +97,7 @@ namespace XFConsole.Desktop.UserControls
             this.txtUserName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.txtUserName.Location = new System.Drawing.Point(125, 9);
             this.txtUserName.Name = "txtUserName";
-            this.txtUserName.Size = new System.Drawing.Size(312, 23);
+            this.txtUserName.Size = new System.Drawing.Size(314, 23);
             this.txtUserName.TabIndex = 10;
             this.txtUserName.Text = "admin";
             // 
@@ -116,7 +116,7 @@ namespace XFConsole.Desktop.UserControls
             this.txtPassword.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.txtPassword.Location = new System.Drawing.Point(125, 50);
             this.txtPassword.Name = "txtPassword";
-            this.txtPassword.Size = new System.Drawing.Size(312, 23);
+            this.txtPassword.Size = new System.Drawing.Size(314, 23);
             this.txtPassword.TabIndex = 17;
             this.txtPassword.Text = "123";
             // 
@@ -135,7 +135,7 @@ namespace XFConsole.Desktop.UserControls
             this.btnLogin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.btnLogin.Location = new System.Drawing.Point(125, 127);
             this.btnLogin.Name = "btnLogin";
-            this.btnLogin.Size = new System.Drawing.Size(312, 23);
+            this.btnLogin.Size = new System.Drawing.Size(314, 23);
             this.btnLogin.TabIndex = 20;
             this.btnLogin.Text = "Login";
             this.btnLogin.UseVisualStyleBackColor = true;
@@ -147,7 +147,7 @@ namespace XFConsole.Desktop.UserControls
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnLogoff.Location = new System.Drawing.Point(125, 158);
             this.btnLogoff.Name = "btnLogoff";
-            this.btnLogoff.Size = new System.Drawing.Size(312, 23);
+            this.btnLogoff.Size = new System.Drawing.Size(314, 23);
             this.btnLogoff.TabIndex = 21;
             this.btnLogoff.Text = "Logoff";
             this.btnLogoff.UseVisualStyleBackColor = true;
@@ -167,7 +167,7 @@ namespace XFConsole.Desktop.UserControls
             "Walmart POC Dev"});
             this.cboApplications.Location = new System.Drawing.Point(125, 91);
             this.cboApplications.Name = "cboApplications";
-            this.cboApplications.Size = new System.Drawing.Size(312, 23);
+            this.cboApplications.Size = new System.Drawing.Size(314, 23);
             this.cboApplications.TabIndex = 22;
             this.cboApplications.Text = "GolfStreamDemo_v36";
             // 

@@ -33,6 +33,8 @@ namespace XFConsole.Desktop
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.lblStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblApplication = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblApplicationName = new System.Windows.Forms.ToolStripStatusLabel();
             this.pnlMain = new System.Windows.Forms.Panel();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -42,7 +44,9 @@ namespace XFConsole.Desktop
             this.statusStrip1.BackColor = System.Drawing.SystemColors.Control;
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lblStatusLabel,
-            this.lblStatus});
+            this.lblStatus,
+            this.lblApplication,
+            this.lblApplicationName});
             this.statusStrip1.Location = new System.Drawing.Point(0, 739);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(1384, 22);
@@ -61,6 +65,19 @@ namespace XFConsole.Desktop
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(67, 17);
             this.lblStatus.Text = "Logged Off";
+            // 
+            // lblApplication
+            // 
+            this.lblApplication.Margin = new System.Windows.Forms.Padding(20, 3, 0, 2);
+            this.lblApplication.Name = "lblApplication";
+            this.lblApplication.Size = new System.Drawing.Size(71, 17);
+            this.lblApplication.Text = "Application:";
+            // 
+            // lblApplicationName
+            // 
+            this.lblApplicationName.ForeColor = System.Drawing.Color.Blue;
+            this.lblApplicationName.Name = "lblApplicationName";
+            this.lblApplicationName.Size = new System.Drawing.Size(0, 17);
             // 
             // pnlMain
             // 
@@ -93,5 +110,7 @@ namespace XFConsole.Desktop
         private System.Windows.Forms.ToolStripStatusLabel lblStatusLabel;
         private System.Windows.Forms.ToolStripStatusLabel lblStatus;
         private System.Windows.Forms.Panel pnlMain;
+        private System.Windows.Forms.ToolStripStatusLabel lblApplication;
+        private System.Windows.Forms.ToolStripStatusLabel lblApplicationName;
     }
 }
