@@ -32,13 +32,13 @@ namespace XFConsole.Desktop.UserControls
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtUserName = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.txtPassword = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
             this.btnLogin = new System.Windows.Forms.Button();
             this.btnLogoff = new System.Windows.Forms.Button();
+            this.cboApplications = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -62,15 +62,15 @@ namespace XFConsole.Desktop.UserControls
             this.tableLayoutPanel1.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 274F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 318F));
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.textBox1, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.txtUserName, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.label2, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.textBox2, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.txtPassword, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.textBox3, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.btnLogin, 1, 3);
             this.tableLayoutPanel1.Controls.Add(this.btnLogoff, 1, 4);
+            this.tableLayoutPanel1.Controls.Add(this.cboApplications, 1, 2);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(16, 22);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 5;
@@ -92,14 +92,14 @@ namespace XFConsole.Desktop.UserControls
             this.label1.TabIndex = 9;
             this.label1.Text = "User Name:";
             // 
-            // textBox1
+            // txtUserName
             // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.Location = new System.Drawing.Point(125, 9);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(311, 23);
-            this.textBox1.TabIndex = 10;
-            this.textBox1.Text = "admin";
+            this.txtUserName.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtUserName.Location = new System.Drawing.Point(125, 9);
+            this.txtUserName.Name = "txtUserName";
+            this.txtUserName.Size = new System.Drawing.Size(312, 23);
+            this.txtUserName.TabIndex = 10;
+            this.txtUserName.Text = "admin";
             // 
             // label2
             // 
@@ -111,14 +111,14 @@ namespace XFConsole.Desktop.UserControls
             this.label2.TabIndex = 16;
             this.label2.Text = "Password:";
             // 
-            // textBox2
+            // txtPassword
             // 
-            this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox2.Location = new System.Drawing.Point(125, 50);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(311, 23);
-            this.textBox2.TabIndex = 17;
-            this.textBox2.Text = "123";
+            this.txtPassword.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtPassword.Location = new System.Drawing.Point(125, 50);
+            this.txtPassword.Name = "txtPassword";
+            this.txtPassword.Size = new System.Drawing.Size(312, 23);
+            this.txtPassword.TabIndex = 17;
+            this.txtPassword.Text = "123";
             // 
             // label3
             // 
@@ -130,24 +130,16 @@ namespace XFConsole.Desktop.UserControls
             this.label3.TabIndex = 18;
             this.label3.Text = "Default Application";
             // 
-            // textBox3
-            // 
-            this.textBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox3.Location = new System.Drawing.Point(125, 91);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(311, 23);
-            this.textBox3.TabIndex = 19;
-            this.textBox3.Text = "GolfStreamDemo_v36";
-            // 
             // btnLogin
             // 
             this.btnLogin.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.btnLogin.Location = new System.Drawing.Point(125, 127);
             this.btnLogin.Name = "btnLogin";
-            this.btnLogin.Size = new System.Drawing.Size(311, 23);
+            this.btnLogin.Size = new System.Drawing.Size(312, 23);
             this.btnLogin.TabIndex = 20;
             this.btnLogin.Text = "Login";
             this.btnLogin.UseVisualStyleBackColor = true;
+            this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click);
             // 
             // btnLogoff
             // 
@@ -155,10 +147,29 @@ namespace XFConsole.Desktop.UserControls
             | System.Windows.Forms.AnchorStyles.Right)));
             this.btnLogoff.Location = new System.Drawing.Point(125, 158);
             this.btnLogoff.Name = "btnLogoff";
-            this.btnLogoff.Size = new System.Drawing.Size(311, 23);
+            this.btnLogoff.Size = new System.Drawing.Size(312, 23);
             this.btnLogoff.TabIndex = 21;
             this.btnLogoff.Text = "Logoff";
             this.btnLogoff.UseVisualStyleBackColor = true;
+            // 
+            // cboApplications
+            // 
+            this.cboApplications.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboApplications.FormattingEnabled = true;
+            this.cboApplications.Items.AddRange(new object[] {
+            "GolfStreamDemo_v36",
+            "OneStream_GolfStream",
+            "EZCorp",
+            "MarketPlace",
+            "OneStream_KL",
+            "OneStream_Planning",
+            "SalesPlan",
+            "Walmart POC Dev"});
+            this.cboApplications.Location = new System.Drawing.Point(125, 91);
+            this.cboApplications.Name = "cboApplications";
+            this.cboApplications.Size = new System.Drawing.Size(312, 23);
+            this.cboApplications.TabIndex = 22;
+            this.cboApplications.Text = "GolfStreamDemo_v36";
             // 
             // ucLogon
             // 
@@ -179,12 +190,12 @@ namespace XFConsole.Desktop.UserControls
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtUserName;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox txtPassword;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Button btnLogin;
         private System.Windows.Forms.Button btnLogoff;
+        private System.Windows.Forms.ComboBox cboApplications;
     }
 }

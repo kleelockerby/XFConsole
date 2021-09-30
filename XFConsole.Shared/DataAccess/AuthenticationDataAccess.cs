@@ -24,6 +24,96 @@ namespace XFConsole.Shared
             return authenticationDataAccess;
         }
 
+        public async Task<XFLogonResponseDto> LogonUserAsync(string userName, string password, string selectedApplicationName)
+        {
+            try
+            {
+                Guid xfAppGuid = new Guid(HttpClientHelper.GetSelectedApplicationStringId(selectedApplicationName));
+                XFApplication selectedApplication = new XFApplication(xfAppGuid, selectedApplicationName, "", "", "");
+                XFLogonRequestDto logonModel = new XFLogonRequestDto() { ClientModuleType = ClientModuleType.Web, ClientXFVersion = XFVersionInfo.XFVersion };
+                logonModel.UserName = userName;
+                logonModel.PasswordOrToken = password;
+                logonModel.SelectedApplication = selectedApplication;
+
+                HttpResponseMessage responseMessage = await this.Http?.PostAsJsonAsync<XFLogonRequestDto>(XFWebGeneralConstants.LogonUrl, logonModel);
+                if (responseMessage != null && responseMessage.IsSuccessStatusCode)
+                {
+                    XFLogonResponseDto logonResponseDto = await responseMessage?.Content?.ReadFromJsonAsync<XFLogonResponseDto>();
+                    if (logonResponseDto != null)
+                    {
+                        return logonResponseDto;
+                    }
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw new XFException(ex);
+            }
+        }
+
+        public async Task<XFApplicationsResponseDto> GetApplicationsAsync(SessionInfo si)
+        {
+            try
+            {
+                XFBaseSiRequestDto siDto = new XFBaseSiRequestDto(si);
+                HttpResponseMessage responseMessage = await this.Http?.PostAsJsonAsync<XFBaseSiRequestDto>(XFWebGeneralConstants.GetApplicationsUrl, siDto);
+                if (responseMessage != null && responseMessage.IsSuccessStatusCode)
+                {
+                    XFApplicationsResponseDto applicationsResponseDto = await responseMessage?.Content?.ReadFromJsonAsync<XFApplicationsResponseDto>();
+                    if ((applicationsResponseDto != null) && (applicationsResponseDto?.Applications?.Count > 0))
+                    {
+                        this.applications = applicationsResponseDto.Applications;
+                        return applicationsResponseDto;
+                    }
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw new XFException(ex);
+            }
+        }
+
+        public async Task<XFOpenApplicationResponseDto> OpenApplicationAsync(SessionInfo si, string selectedApplicationName)
+        {
+            XFOpenApplicationRequestDto openApplicationRequestDto = new XFOpenApplicationRequestDto(si, selectedApplicationName);
+            HttpResponseMessage responseMessage = await this.Http?.PostAsJsonAsync<XFOpenApplicationRequestDto>(XFWebGeneralConstants.OpenApplicationUrl, openApplicationRequestDto);
+            if (responseMessage != null && responseMessage.IsSuccessStatusCode)
+            {
+                var jsonSerializerOptions = new System.Text.Json.JsonSerializerOptions();
+                jsonSerializerOptions.Converters.Add(new JsonNonStringKeyDictionaryConverter());
+                jsonSerializerOptions.Converters.Add(new WorkflowInfoCallbacksConverter());
+
+                XFOpenApplicationResponseDto openApplicationResponseDto = await responseMessage.Content?.ReadFromJsonAsync<XFOpenApplicationResponseDto>(jsonSerializerOptions);
+                if (openApplicationResponseDto != null)
+                {
+                    //ToDo: SessionInfo sessionInfo = openApplicationResponseDto.SessionInfo;
+                    //ToDo: string applicationDashboardName = XFWebHomePageHelper.GetApplicationDashboardNameFromSettings(openApplicationResponseDto.UserAppSettings);
+                    return openApplicationResponseDto;
+                }
+            }
+            return null;
+        }
+
+        public XFApplication GetSelectedApplication(string selectedApplicationName, out int selectedIndex)
+        {
+            selectedIndex = -1;
+            XFApplication selectedApp = null;
+            for (int i = 0; i < this.applications.Count; i++)
+            {
+                XFApplication xfApplication = this.applications[i];
+                if (this.applications[i].Name == selectedApplicationName)
+                {
+                    selectedIndex = i;
+                    selectedApp = this.applications[i];
+                }
+            }
+            return selectedApp;
+        }
+
+
+
         public async Task<XFAuthenticationData> GetLogonAsync(string userName, string password, string selectedApplicationName)
         {
             try
@@ -58,7 +148,6 @@ namespace XFConsole.Shared
                 throw new XFException(ex);
             }
         }
-
         public async Task<XFApplicationData> GetApplicationsAsync(XFAuthenticationData authenticationData, string selectedApplicationName)
         {
             try
@@ -91,7 +180,6 @@ namespace XFConsole.Shared
                 throw new XFException(ex);
             }
         }
-
         public async Task OpenApplicationAsync(SessionInfo si, XFApplicationData applicationData)
         {
             Guid xfAppGuid = new Guid(HttpClientHelper.GetSelectedApplicationStringId(applicationData.SelectedApplication.Name));
@@ -120,21 +208,6 @@ namespace XFConsole.Shared
                 }
             }
         }
-
-        private XFApplication GetSelectedApplication(string selectedApplicationName, out int selectedIndex)
-        {
-            selectedIndex = -1;
-            XFApplication selectedApp = null;
-            for (int i=0; i < this.applications.Count; i++)
-            {
-                XFApplication xfApplication = this.applications[i];
-                if (this.applications[i].Name == selectedApplicationName)
-                {
-                    selectedIndex = i;
-                    selectedApp = this.applications[i];
-                }
-            }
-            return selectedApp;
-        }
+        
     }
 }

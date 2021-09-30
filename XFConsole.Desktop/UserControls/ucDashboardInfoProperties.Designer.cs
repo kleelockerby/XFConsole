@@ -1,7 +1,7 @@
 ﻿
 namespace XFConsole.Desktop.UserControls
 {
-    partial class DashboardProperties
+    partial class ucDashboardInfoProperties
     {
         /// <summary> 
         /// Required designer variable.
@@ -34,10 +34,10 @@ namespace XFConsole.Desktop.UserControls
             // 
             // propertyGridDashboardInfo
             // 
-            this.propertyGridDashboardInfo.Dock = System.Windows.Forms.DockStyle.Left;
+            this.propertyGridDashboardInfo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.propertyGridDashboardInfo.Location = new System.Drawing.Point(0, 0);
             this.propertyGridDashboardInfo.Name = "propertyGridDashboardInfo";
-            this.propertyGridDashboardInfo.Size = new System.Drawing.Size(487, 433);
+            this.propertyGridDashboardInfo.Size = new System.Drawing.Size(686, 433);
             this.propertyGridDashboardInfo.TabIndex = 0;
             // 
             // DashboardProperties
