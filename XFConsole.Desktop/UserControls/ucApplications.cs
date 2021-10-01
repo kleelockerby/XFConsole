@@ -26,30 +26,39 @@ namespace XFConsole.Desktop.UserControls
             this.applications = applications;
         }
 
-        public async Task<XFApplication> OpenApplicationAsync(SessionInfo si, string selectedApplicationName)
+        public async void ShowApplications(SessionInfo si, string selectedApplicationName)
+        {
+            this.si = si;
+            lvApplications.Columns.Add(new ColumnHeader() { Name = "ApplicationName", Text = "Applications", Width = lvApplications.Width - 5 });
+            foreach (XFApplication application in this.applications)
+            {
+                this.lvApplications.Items.Add(new ListViewItem(new string[] { application.Name }));
+            }
+
+            this.selectedApplication = await OpenApplicationAsync(selectedApplicationName);
+            if (this.selectedApplication != null)
+            {
+                ShowSelectedApplication(selectedApplication);
+            }
+        }
+
+        public async Task<XFApplication> OpenApplicationAsync(string selectedApplicationName)
         {
             XFApplication selectedApplication = null;
             ApplicationDataAccess applicationDataAccess = ApplicationDataAccess.Create(this.Http);
-            XFOpenApplicationResponseDto openApplicationResponseDto = await applicationDataAccess.OpenApplicationAsync(si, selectedApplicationName);
+            XFOpenApplicationResponseDto openApplicationResponseDto = await applicationDataAccess.OpenApplicationAsync(this.si, selectedApplicationName);
             if (openApplicationResponseDto != null)
             {
                 this.si = openApplicationResponseDto.SessionInfo;
                 selectedApplication = applicationDataAccess.GetSelectedApplication(selectedApplicationName, this.applications, out int index);
-                dashboardProfileInfos = openApplicationResponseDto.DashboardProfiles;
+                this.dashboardProfileInfos = openApplicationResponseDto.DashboardProfiles;
             }
             return selectedApplication;
         }
 
-        public void ShowApplications(XFApplication selectedApplication)
+        private void ShowSelectedApplication(XFApplication selectedApplication)
         {
-            this.selectedApplication = selectedApplication;
-            lvApplications.Columns.Add(new ColumnHeader() { Name = "ApplicationName", Text = "Applications", Width = lvApplications.Width - 5 });
-            foreach( XFApplication application in this.applications)
-            {
-                lvApplications.Items.Add(new ListViewItem(new string[] { application.Name }));
-            }
-
-            int selectedAppIndex = this.applications.IndexOf(this.selectedApplication);
+            int selectedAppIndex = this.applications.IndexOf(selectedApplication);
             lvApplications.SelectedIndices.Clear();
             lvApplications.Focus();
             lvApplications.Select();
@@ -60,28 +69,32 @@ namespace XFConsole.Desktop.UserControls
 
         public void ShowDashboardsProfileInfo()
         {
-            TreeNode nodeRoot = new TreeNode() { Name = "DashboardProfileInfo", Text = "DashboardProfileInfo", ImageIndex = 8, SelectedImageIndex = 8, Tag = "DashboardProfileInfo" };
-            TreeNode nodeSub1 = new TreeNode() { Name = "DashboardProfiles", Text = "DashboardProfiles", ImageIndex = 8, SelectedImageIndex = 8, Tag = "DashboardProfiles" };
-            TreeNode nodeSub2 = new TreeNode() { Name = "DashboardGroups", Text = "DashboardGroups", ImageIndex = 6, SelectedImageIndex = 6, Tag = "DashboardGroups" };
-
-            foreach (DashboardProfileInfo dashboardProfileInfo in this.dashboardProfileInfos)
+            if (this.dashboardProfileInfos != null)
             {
-                TreeNode nodeDashboardProfile = new TreeNode() { Name = dashboardProfileInfo.Profile.UniqueID.ToString(), Text = dashboardProfileInfo.Profile.Name, ImageIndex = 5, SelectedImageIndex = 5, Tag = "DashboardProfile" };
-                nodeSub1.Nodes.Add(nodeDashboardProfile);
-                nodeDashboardProfile.Nodes.Add(new TreeNode("*"));
+                tvDashboardProfileInfos.Nodes.Clear();
+                TreeNode nodeRoot = new TreeNode() { Name = "DashboardProfileInfo", Text = "DashboardProfileInfo", ImageIndex = 8, SelectedImageIndex = 8, Tag = "DashboardProfileInfo" };
+                TreeNode nodeSub1 = new TreeNode() { Name = "DashboardProfiles", Text = "DashboardProfiles", ImageIndex = 8, SelectedImageIndex = 8, Tag = "DashboardProfiles" };
+                TreeNode nodeSub2 = new TreeNode() { Name = "DashboardGroups", Text = "DashboardGroups", ImageIndex = 6, SelectedImageIndex = 6, Tag = "DashboardGroups" };
 
-                foreach (DashboardGroup dashboardGroup in dashboardProfileInfo.Groups)
+                foreach (DashboardProfileInfo dashboardProfileInfo in this.dashboardProfileInfos)
                 {
-                    TreeNode nodeDashboardGroup = new TreeNode() { Name = dashboardGroup.UniqueID.ToString(), Text = dashboardGroup.Name, ImageIndex = 7, SelectedImageIndex = 7, Tag = "DashboardGroup" };
-                    nodeSub2.Nodes.Add(nodeDashboardGroup);
-                }
-            }
+                    TreeNode nodeDashboardProfile = new TreeNode() { Name = dashboardProfileInfo.Profile.UniqueID.ToString(), Text = dashboardProfileInfo.Profile.Name, ImageIndex = 5, SelectedImageIndex = 5, Tag = "DashboardProfile" };
+                    nodeSub1.Nodes.Add(nodeDashboardProfile);
+                    nodeDashboardProfile.Nodes.Add(new TreeNode("*"));
 
-            nodeRoot.Nodes.Add(nodeSub1);
-            nodeRoot.Nodes.Add(nodeSub2);
-            nodeRoot.Expand();
-            nodeSub1.Expand();
-            tvDashboardProfileInfos.Nodes.Add(nodeRoot);
+                    foreach (DashboardGroup dashboardGroup in dashboardProfileInfo.Groups)
+                    {
+                        TreeNode nodeDashboardGroup = new TreeNode() { Name = dashboardGroup.UniqueID.ToString(), Text = dashboardGroup.Name, ImageIndex = 7, SelectedImageIndex = 7, Tag = "DashboardGroup" };
+                        nodeSub2.Nodes.Add(nodeDashboardGroup);
+                    }
+                }
+
+                nodeRoot.Nodes.Add(nodeSub1);
+                nodeRoot.Nodes.Add(nodeSub2);
+                nodeRoot.Expand();
+                nodeSub1.Expand();
+                tvDashboardProfileInfos.Nodes.Add(nodeRoot); 
+            }
         }
 
         private async void GetDashboardsInProfile(Guid dashboardProfileId, TreeNode selectedNode)
@@ -180,6 +193,18 @@ namespace XFConsole.Desktop.UserControls
             {
                 throw new XFException(ex);
             }
+        }
+
+        private async void lvApplications_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
+            int itemIndex = e.ItemIndex;
+            string selectedApplicationName = lvApplications.Items[itemIndex].Text;
+            
+            if (selectedApplicationName != this.selectedApplication.Name)
+            {
+                this.selectedApplication = await OpenApplicationAsync(selectedApplicationName);
+            }
+            ShowDashboardsProfileInfo();
         }
     }
 }

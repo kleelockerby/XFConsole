@@ -75,6 +75,7 @@ namespace XFConsole.Desktop.UserControls
             this.lvApplications.TabIndex = 4;
             this.lvApplications.UseCompatibleStateImageBehavior = false;
             this.lvApplications.View = System.Windows.Forms.View.Details;
+            this.lvApplications.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.lvApplications_ItemSelectionChanged);
             // 
             // pnlRight
             // 

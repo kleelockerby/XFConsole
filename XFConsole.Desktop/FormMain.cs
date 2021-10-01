@@ -42,20 +42,15 @@ namespace XFConsole.Desktop
             this.pnlMain.Controls.Add(this.ucLogon1);
         }
 
-        public async void ShowApplicationsPage(SessionInfo si, List<XFApplication> applications, string selectedApplicationName)
+        public void ShowApplicationsPage(SessionInfo si, List<XFApplication> applications, string selectedApplicationName)
         {
             this.ucApplications1 = new ucApplications(this.httpClient, applications);
             this.ucApplications1.Dock = DockStyle.Fill;
             this.pnlMain.Controls.Clear();
             this.pnlMain.Controls.Add(this.ucApplications1);
 
-            XFApplication selectedApplication = await this.ucApplications1.OpenApplicationAsync(si, selectedApplicationName);
-
-            if (selectedApplication != null)
-            {
-                this.ucApplications1.ShowApplications(selectedApplication);
-                this.ucApplications1.ShowDashboardsProfileInfo();
-            }
+            this.ucApplications1.ShowApplications(si, selectedApplicationName);
+            this.ucApplications1.ShowDashboardsProfileInfo();
         }
 
         private void Logon_OnLogonCompleted(object sender, LogonCompleteEventArgs e)
