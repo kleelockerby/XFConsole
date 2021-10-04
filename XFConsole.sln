@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XFConsole.Desktop", "XFCons
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XFConsole.Tests", "XFConsole.Tests\XFConsole.Tests.csproj", "{921721D1-7692-4DE6-B90C-865E84341272}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XFConsole.ConsoleApp", "XFConsole.ConsoleApp\XFConsole.ConsoleApp.csproj", "{057ABD1A-7ED3-4BBC-A236-AE7F031A1305}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,18 +55,6 @@ Global
 		{921721D1-7692-4DE6-B90C-865E84341272}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{921721D1-7692-4DE6-B90C-865E84341272}.Release|x86.ActiveCfg = Release|Any CPU
 		{921721D1-7692-4DE6-B90C-865E84341272}.Release|x86.Build.0 = Release|Any CPU
-		{057ABD1A-7ED3-4BBC-A236-AE7F031A1305}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{057ABD1A-7ED3-4BBC-A236-AE7F031A1305}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{057ABD1A-7ED3-4BBC-A236-AE7F031A1305}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{057ABD1A-7ED3-4BBC-A236-AE7F031A1305}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{057ABD1A-7ED3-4BBC-A236-AE7F031A1305}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{057ABD1A-7ED3-4BBC-A236-AE7F031A1305}.Debug|x86.Build.0 = Debug|Any CPU
-		{057ABD1A-7ED3-4BBC-A236-AE7F031A1305}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{057ABD1A-7ED3-4BBC-A236-AE7F031A1305}.Release|Any CPU.Build.0 = Release|Any CPU
-		{057ABD1A-7ED3-4BBC-A236-AE7F031A1305}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{057ABD1A-7ED3-4BBC-A236-AE7F031A1305}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{057ABD1A-7ED3-4BBC-A236-AE7F031A1305}.Release|x86.ActiveCfg = Release|Any CPU
-		{057ABD1A-7ED3-4BBC-A236-AE7F031A1305}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
