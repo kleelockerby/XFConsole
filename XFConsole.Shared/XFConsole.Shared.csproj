@@ -1,10 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\XFConsole.Blazored\XFConsole.Blazored.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.AspNetCore.Components">
+      <HintPath>..\..\..\..\Users\klockerby\.nuget\packages\microsoft.aspnetcore.components\6.0.0-preview.4.21253.5\lib\net6.0\Microsoft.AspNetCore.Components.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection">
+      <HintPath>..\..\..\..\Program Files\dotnet\packs\Microsoft.AspNetCore.App.Ref\6.0.0-preview.4.21253.5\ref\net6.0\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
     <Reference Include="OneStream.SharedCommonBase">
       <HintPath>..\..\..\..\XF\Source\Client\Web\OneStreamWebUI\Client\bin\Debug\net6.0\wwwroot\_framework\OneStream.SharedCommonBase.dll</HintPath>
     </Reference>

@@ -41,6 +41,10 @@ namespace XFConsole.Shared
                     return openApplicationResponseDto;
                 }
             }
+            else
+            {
+                var status = responseMessage.StatusCode;
+            }
             return null;
         }
 

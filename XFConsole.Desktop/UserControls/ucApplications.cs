@@ -19,6 +19,8 @@ namespace XFConsole.Desktop.UserControls
         private List<DashboardProfileInfo> dashboardProfileInfos = null;
         private Dictionary<string, Dashboard> dictDashboards = new Dictionary<string, Dashboard>();
 
+        private ApplicationDataAccess applicationDataAccess;
+
         public ucApplications(HttpClient httpClient, List<XFApplication> applications)
         {
             InitializeComponent();
@@ -28,24 +30,33 @@ namespace XFConsole.Desktop.UserControls
 
         public async void ShowApplications(SessionInfo si, string selectedApplicationName)
         {
-            this.si = si;
-            lvApplications.Columns.Add(new ColumnHeader() { Name = "ApplicationName", Text = "Applications", Width = lvApplications.Width - 5 });
-            foreach (XFApplication application in this.applications)
+            try
             {
-                this.lvApplications.Items.Add(new ListViewItem(new string[] { application.Name }));
-            }
+                this.si = si;
+                lvApplications.Columns.Add(new ColumnHeader() { Name = "ApplicationName", Text = "Applications", Width = lvApplications.Width - 5 });
+                foreach (XFApplication application in this.applications)
+                {
+                    this.lvApplications.Items.Add(new ListViewItem(new string[] { application.Name }));
+                }
 
-            this.selectedApplication = await OpenApplicationAsync(selectedApplicationName);
-            if (this.selectedApplication != null)
+                this.selectedApplication = await OpenApplicationAsync(selectedApplicationName);
+                if (this.selectedApplication != null)
+                {
+                    ShowSelectedApplication(selectedApplication);
+                }
+            }
+            catch (Exception ex)
             {
-                ShowSelectedApplication(selectedApplication);
+                throw new XFException(ex);
             }
         }
 
         public async Task<XFApplication> OpenApplicationAsync(string selectedApplicationName)
         {
             XFApplication selectedApplication = null;
-            ApplicationDataAccess applicationDataAccess = ApplicationDataAccess.Create(this.Http);
+            //ApplicationDataAccess applicationDataAccess = ApplicationDataAccess.Create(this.Http);
+            applicationDataAccess = ApplicationDataAccess.Create(this.Http);
+
             XFOpenApplicationResponseDto openApplicationResponseDto = await applicationDataAccess.OpenApplicationAsync(this.si, selectedApplicationName);
             if (openApplicationResponseDto != null)
             {

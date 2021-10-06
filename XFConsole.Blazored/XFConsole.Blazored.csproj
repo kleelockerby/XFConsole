@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="fizzler.systems.htmlagilitypack" Version="1.2.0" />
+    <PackageReference Include="microsoft.aspnetcore.components" Version="6.0.0-preview.4.21253.5" />
+    <PackageReference Include="microsoft.aspnetcore.components.web" Version="6.0.0-preview.4.21253.5" />
+    <PackageReference Include="microsoft.extensions.dependencyinjection" Version="6.0.0-preview.4.21253.7" />
+    <PackageReference Include="richardszalay.mockhttp" Version="5.0.0" />
+  </ItemGroup>
+
+</Project>

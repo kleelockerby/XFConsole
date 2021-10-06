@@ -50,6 +50,7 @@ namespace XFConsole.Desktop
             this.pnlMain.Controls.Add(this.ucApplications1);
 
             this.ucApplications1.ShowApplications(si, selectedApplicationName);
+            
             this.ucApplications1.ShowDashboardsProfileInfo();
         }
 
