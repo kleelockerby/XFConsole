@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <Reference Include="Microsoft.AspNetCore.Components">
-      <HintPath>..\..\..\..\Users\klockerby\.nuget\packages\microsoft.aspnetcore.components\6.0.0-preview.4.21253.5\lib\net6.0\Microsoft.AspNetCore.Components.dll</HintPath>
+      <HintPath>..\..\..\..\Program Files\dotnet\packs\Microsoft.AspNetCore.App.Ref\6.0.0-preview.4.21253.5\ref\net6.0\Microsoft.AspNetCore.Components.dll</HintPath>
     </Reference>
     <Reference Include="OneStream.SharedCommonBase">
       <HintPath>..\..\..\..\XF\Source\Client\Web\OneStreamWebUI\Client\bin\Debug\net6.0\wwwroot\_framework\OneStream.SharedCommonBase.dll</HintPath>

@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XFConsole.Desktop", "XFCons
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "XFConsole Tests", "XFConsole Tests", "{1FECD01B-873D-4A72-8C1C-618BE170968B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XFConsole.Blazored", "XFConsole.Blazored\XFConsole.Blazored.csproj", "{D1D4F36C-7F91-402A-868E-F2638B4D195F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XFConsole.Blazored", "XFConsole.Blazored\XFConsole.Blazored.csproj", "{D1D4F36C-7F91-402A-868E-F2638B4D195F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

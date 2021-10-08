@@ -5,21 +5,24 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\XFConsole.Blazored\XFConsole.Blazored.csproj" />
+    <PackageReference Include="microsoft.aspnetcore.components" Version="6.0.0-preview.4.21253.5" />
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="Microsoft.AspNetCore.Components">
-      <HintPath>..\..\..\..\Users\klockerby\.nuget\packages\microsoft.aspnetcore.components\6.0.0-preview.4.21253.5\lib\net6.0\Microsoft.AspNetCore.Components.dll</HintPath>
+    <Reference Include="OneStream.ClientStrings">
+      <HintPath>..\..\..\..\XF\Source\Client\Common\ClientStrings\bin\Debug\netstandard2.0\OneStream.ClientStrings.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Extensions.DependencyInjection">
-      <HintPath>..\..\..\..\Program Files\dotnet\packs\Microsoft.AspNetCore.App.Ref\6.0.0-preview.4.21253.5\ref\net6.0\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    <Reference Include="OneStream.ClientWindowsSharedUI">
+      <HintPath>..\..\..\..\XF\Source\Client\Windows\ClientWindowsSharedUI\bin\Debug\OneStream.ClientWindowsSharedUI.dll</HintPath>
     </Reference>
     <Reference Include="OneStream.SharedCommonBase">
       <HintPath>..\..\..\..\XF\Source\Client\Web\OneStreamWebUI\Client\bin\Debug\net6.0\wwwroot\_framework\OneStream.SharedCommonBase.dll</HintPath>
     </Reference>
     <Reference Include="OneStream.SharedWcfContract">
       <HintPath>..\..\..\..\XF\Source\Client\Web\OneStreamWebUI\Client\bin\Debug\net6.0\wwwroot\_framework\OneStream.SharedWcfContract.dll</HintPath>
+    </Reference>
+    <Reference Include="OneStreamWebUI.Client">
+      <HintPath>..\..\..\..\XF\Source\Client\Web\OneStreamWebUI\Server\bin\Debug\net6.0\OneStreamWebUI.Client.dll</HintPath>
     </Reference>
     <Reference Include="OneStreamWebUI.Shared">
       <HintPath>..\..\..\..\XF\Source\Client\Web\OneStreamWebUI\Client\bin\Debug\net6.0\wwwroot\_framework\OneStreamWebUI.Shared.dll</HintPath>

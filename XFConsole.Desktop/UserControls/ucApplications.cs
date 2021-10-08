@@ -18,14 +18,18 @@ namespace XFConsole.Desktop.UserControls
         private XFApplication selectedApplication;
         private List<DashboardProfileInfo> dashboardProfileInfos = null;
         private Dictionary<string, Dashboard> dictDashboards = new Dictionary<string, Dashboard>();
-
         private ApplicationDataAccess applicationDataAccess;
+        private DashboardDataAccess dashboardDataAccess;
+
+        public Action<ApplicationSelectedEventArgs> ApplicationSelectedHandler { get; set; }
 
         public ucApplications(HttpClient httpClient, List<XFApplication> applications)
         {
             InitializeComponent();
             this.Http = httpClient;
             this.applications = applications;
+            this.applicationDataAccess = ApplicationDataAccess.Create(this.Http);
+            this.dashboardDataAccess = DashboardDataAccess.Create(this.Http);
         }
 
         public async void ShowApplications(SessionInfo si, string selectedApplicationName)
@@ -42,6 +46,8 @@ namespace XFConsole.Desktop.UserControls
                 this.selectedApplication = await OpenApplicationAsync(selectedApplicationName);
                 if (this.selectedApplication != null)
                 {
+                    ApplicationSelectedHandler.Invoke(new ApplicationSelectedEventArgs(selectedApplicationName));
+                    //applicationDataAccess.GetLoadDashboardInfo(this.si, selectedApplicationName);
                     ShowSelectedApplication(selectedApplication);
                 }
             }
@@ -54,8 +60,7 @@ namespace XFConsole.Desktop.UserControls
         public async Task<XFApplication> OpenApplicationAsync(string selectedApplicationName)
         {
             XFApplication selectedApplication = null;
-            //ApplicationDataAccess applicationDataAccess = ApplicationDataAccess.Create(this.Http);
-            applicationDataAccess = ApplicationDataAccess.Create(this.Http);
+            //applicationDataAccess = ApplicationDataAccess.Create(this.Http);
 
             XFOpenApplicationResponseDto openApplicationResponseDto = await applicationDataAccess.OpenApplicationAsync(this.si, selectedApplicationName);
             if (openApplicationResponseDto != null)
@@ -110,7 +115,7 @@ namespace XFConsole.Desktop.UserControls
 
         private async void GetDashboardsInProfile(Guid dashboardProfileId, TreeNode selectedNode)
         {
-            DashboardDataAccess dashboardDataAccess = DashboardDataAccess.Create(this.Http);
+            //dashboardDataAccess = DashboardDataAccess.Create(this.Http);
             List<Dashboard> dashboards = await dashboardDataAccess.GetDashboardsInProfile(this.si, dashboardProfileId);
 
             if (dashboards?.Count > 0)
@@ -167,7 +172,7 @@ namespace XFConsole.Desktop.UserControls
             }
         }
 
-        private void tvDashboardProfileInfos_AfterSelect(object sender, TreeViewEventArgs e)
+        private async void tvDashboardProfileInfos_AfterSelect(object sender, TreeViewEventArgs e)
         {
             try
             {
@@ -178,7 +183,7 @@ namespace XFConsole.Desktop.UserControls
                     this.splitContainer1.Panel2.Controls.Clear();
 
                     ucDashboardInfoProperties dashboardInfoProperties = new ucDashboardInfoProperties();
-                    dashboardInfoProperties.ShowDashboardProperties(selectedDashboardProfile);
+                    dashboardInfoProperties.ShowProperties(selectedDashboardProfile, DashboardInfoPropertyType.DashboardProfile);
                     dashboardInfoProperties.Dock = DockStyle.Fill;
                     this.splitContainer1.Panel2.Controls.Add(dashboardInfoProperties);
                 }
@@ -186,12 +191,24 @@ namespace XFConsole.Desktop.UserControls
                 {
                     if (this.dictDashboards.ContainsKey(e.Node.Name.ToString()))
                     {
-                        Dashboard dashboard = this.dictDashboards[e.Node.Name] as Dashboard;
-                        this.splitContainer1.Panel2.Controls.Clear();
-                        ucDashboardInfoProperties dashboardInfoProperties = new ucDashboardInfoProperties();
-                        dashboardInfoProperties.ShowDashboardProperties(dashboard);
-                        dashboardInfoProperties.Dock = DockStyle.Fill;
-                        this.splitContainer1.Panel2.Controls.Add(dashboardInfoProperties);
+                        Dashboard selectedDashboard = this.dictDashboards[e.Node.Name] as Dashboard;
+
+                        if (selectedDashboard != null)
+                        {
+                            this.splitContainer1.Panel2.Controls.Clear();
+
+                            ucDashboardInfoProperties dashboardInfoProperties = new ucDashboardInfoProperties();
+                            dashboardInfoProperties.Dock = DockStyle.Fill;
+                            dashboardInfoProperties.ShowProperties(selectedDashboard, DashboardInfoPropertyType.Dashboard);
+
+                            DashboardParamDisplayInfos paramDisplayInfos = await dashboardDataAccess.GetLoadDashboardInfo(this.si, selectedDashboard.Name);
+                            if (paramDisplayInfos != null)
+                            {
+                                dashboardInfoProperties.ShowParamDisplayInfos(paramDisplayInfos);
+                            }
+
+                            this.splitContainer1.Panel2.Controls.Add(dashboardInfoProperties); 
+                        }
                     } 
 
                 }
@@ -214,6 +231,7 @@ namespace XFConsole.Desktop.UserControls
             if (selectedApplicationName != this.selectedApplication.Name)
             {
                 this.selectedApplication = await OpenApplicationAsync(selectedApplicationName);
+                this.splitContainer1.Panel2.Controls.Clear();
             }
             ShowDashboardsProfileInfo();
         }

@@ -51,6 +51,7 @@ namespace XFConsole.Desktop.UserControls
             // 
             // pnlLeft
             // 
+            this.pnlLeft.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnlLeft.Controls.Add(this.lvApplications);
             this.pnlLeft.Dock = System.Windows.Forms.DockStyle.Left;
             this.pnlLeft.Location = new System.Drawing.Point(0, 0);
@@ -60,6 +61,8 @@ namespace XFConsole.Desktop.UserControls
             // 
             // lvApplications
             // 
+            this.lvApplications.AllowDrop = true;
+            this.lvApplications.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lvApplications.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvApplications.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lvApplications.FullRowSelect = true;
@@ -71,7 +74,7 @@ namespace XFConsole.Desktop.UserControls
             this.lvApplications.MultiSelect = false;
             this.lvApplications.Name = "lvApplications";
             this.lvApplications.Scrollable = false;
-            this.lvApplications.Size = new System.Drawing.Size(180, 690);
+            this.lvApplications.Size = new System.Drawing.Size(178, 688);
             this.lvApplications.TabIndex = 4;
             this.lvApplications.UseCompatibleStateImageBehavior = false;
             this.lvApplications.View = System.Windows.Forms.View.Details;
@@ -79,6 +82,7 @@ namespace XFConsole.Desktop.UserControls
             // 
             // pnlRight
             // 
+            this.pnlRight.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnlRight.Controls.Add(this.tabControl1);
             this.pnlRight.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlRight.Location = new System.Drawing.Point(180, 0);
@@ -97,7 +101,7 @@ namespace XFConsole.Desktop.UserControls
             this.tabControl1.Location = new System.Drawing.Point(6, 5);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(981, 682);
+            this.tabControl1.Size = new System.Drawing.Size(979, 680);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -107,13 +111,14 @@ namespace XFConsole.Desktop.UserControls
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(973, 654);
+            this.tabPage1.Size = new System.Drawing.Size(971, 652);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "DashboardProfileInfo";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // splitContainer1
             // 
+            this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.splitContainer1.Cursor = System.Windows.Forms.Cursors.Default;
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.Location = new System.Drawing.Point(3, 3);
@@ -126,19 +131,20 @@ namespace XFConsole.Desktop.UserControls
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.BackColor = System.Drawing.Color.Transparent;
-            this.splitContainer1.Size = new System.Drawing.Size(967, 648);
-            this.splitContainer1.SplitterDistance = 280;
+            this.splitContainer1.Size = new System.Drawing.Size(965, 646);
+            this.splitContainer1.SplitterDistance = 278;
             this.splitContainer1.TabIndex = 0;
             // 
             // tvDashboardProfileInfos
             // 
+            this.tvDashboardProfileInfos.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.tvDashboardProfileInfos.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tvDashboardProfileInfos.ImageIndex = 0;
             this.tvDashboardProfileInfos.ImageList = this.imageList1;
             this.tvDashboardProfileInfos.Location = new System.Drawing.Point(0, 0);
             this.tvDashboardProfileInfos.Name = "tvDashboardProfileInfos";
             this.tvDashboardProfileInfos.SelectedImageIndex = 0;
-            this.tvDashboardProfileInfos.Size = new System.Drawing.Size(280, 648);
+            this.tvDashboardProfileInfos.Size = new System.Drawing.Size(274, 642);
             this.tvDashboardProfileInfos.TabIndex = 0;
             this.tvDashboardProfileInfos.BeforeExpand += new System.Windows.Forms.TreeViewCancelEventHandler(this.tvDashboardProfileInfos_BeforeExpand);
             this.tvDashboardProfileInfos.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvDashboardProfileInfos_AfterSelect);

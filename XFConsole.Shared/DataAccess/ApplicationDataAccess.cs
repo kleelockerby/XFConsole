@@ -36,7 +36,6 @@ namespace XFConsole.Shared
                 XFOpenApplicationResponseDto openApplicationResponseDto = await responseMessage.Content?.ReadFromJsonAsync<XFOpenApplicationResponseDto>(jsonSerializerOptions);
                 if (openApplicationResponseDto != null)
                 {
-                    //ToDo: SessionInfo sessionInfo = openApplicationResponseDto.SessionInfo;
                     //ToDo: string applicationDashboardName = XFWebHomePageHelper.GetApplicationDashboardNameFromSettings(openApplicationResponseDto.UserAppSettings);
                     return openApplicationResponseDto;
                 }

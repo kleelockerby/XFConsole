@@ -36,7 +36,7 @@ namespace XFConsole.Desktop
 
         public void ShowLoginPage()
         {
-            this.ucLogon1.Location = new System.Drawing.Point(430, 230);
+            this.ucLogon1.Location = new System.Drawing.Point(580, 230);
             this.ucLogon1.Size = new System.Drawing.Size(480, 300);
             this.ucLogon1.Anchor = AnchorStyles.Top;
             this.pnlMain.Controls.Add(this.ucLogon1);
@@ -45,19 +45,24 @@ namespace XFConsole.Desktop
         public void ShowApplicationsPage(SessionInfo si, List<XFApplication> applications, string selectedApplicationName)
         {
             this.ucApplications1 = new ucApplications(this.httpClient, applications);
+            this.ucApplications1.ApplicationSelectedHandler = ((ApplicationSelectedEventArgs e) => this.lblApplicationName.Text = e.ApplicationName);
+
             this.ucApplications1.Dock = DockStyle.Fill;
             this.pnlMain.Controls.Clear();
             this.pnlMain.Controls.Add(this.ucApplications1);
 
             this.ucApplications1.ShowApplications(si, selectedApplicationName);
-            
             this.ucApplications1.ShowDashboardsProfileInfo();
         }
 
         private void Logon_OnLogonCompleted(object sender, LogonCompleteEventArgs e)
         {
             AuthenticationResult authenticationResult = e.AuthenticationResult;
-            ShowApplicationsPage(e.SI, e.Applications, e.SelectedApplicationName);
+            if (authenticationResult == AuthenticationResult.Success)
+            {
+                this.lblStatus.Text = "Logon Success";
+                ShowApplicationsPage(e.SI, e.Applications, e.SelectedApplicationName);
+            }            
         }
     }
 }

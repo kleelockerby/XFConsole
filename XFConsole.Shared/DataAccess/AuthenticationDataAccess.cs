@@ -6,6 +6,7 @@ using System.Net.Http.Json;
 using OneStream.Shared.Common;
 using OneStream.Shared.Wcf;
 using OneStreamWebUI.Shared;
+using OneStream.Client.SharedUI;
 
 namespace XFConsole.Shared
 {
