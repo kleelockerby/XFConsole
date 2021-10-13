@@ -126,7 +126,7 @@ namespace XFConsole.Desktop.UserControls
                     {
                         this.dictDashboards.Add(dashboard.UniqueID.ToString(), dashboard);
                         TreeNode node = new TreeNode() { Name = dashboard.UniqueID.ToString(), Text = dashboard.Name, ImageIndex = 3, SelectedImageIndex = 3, Tag = "Dashboard" };
-                        //node.Nodes.Add(new TreeNode("*"));
+                        node.Nodes.Add(new TreeNode("*"));
                         selectedNode.Nodes.Add(node);
                     }
                 }
@@ -168,6 +168,10 @@ namespace XFConsole.Desktop.UserControls
                         GetDashboardsInProfile(dashboardProfileId, e.Node);
                         e.Node.Parent.Expand();
                     }
+                    else if(nodeTag == "Dashboard")
+                    {
+                        // Add Tree Nodes
+                    }
                 }
             }
         }
@@ -202,6 +206,7 @@ namespace XFConsole.Desktop.UserControls
                             dashboardInfoProperties.ShowProperties(selectedDashboard, DashboardInfoPropertyType.Dashboard);
 
                             DashboardParamDisplayInfos paramDisplayInfos = await dashboardDataAccess.GetLoadDashboardInfo(this.si, selectedDashboard.Name);
+
                             if (paramDisplayInfos != null)
                             {
                                 dashboardInfoProperties.ShowParamDisplayInfos(paramDisplayInfos);

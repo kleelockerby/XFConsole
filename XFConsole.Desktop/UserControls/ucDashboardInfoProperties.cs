@@ -18,7 +18,7 @@ namespace XFConsole.Desktop.UserControls
         public ucDashboardInfoProperties()
         {
             InitializeComponent();
-            int column1Width = (lvParamDisplayInfos.Width / 2) + 40;
+            int column1Width = (lvParamDisplayInfos.Width / 2) + 74;
             int colum2Width = lvParamDisplayInfos.Width - column1Width;
             lvParamDisplayInfos.Columns.Add(new ColumnHeader() { Name = "columnHeader1", Text = "DashboardParamDisplayInfos", Width = column1Width });
             lvParamDisplayInfos.Columns.Add(new ColumnHeader() { Name = "columnHeader2", Text = " ", Width = colum2Width });
@@ -54,10 +54,10 @@ namespace XFConsole.Desktop.UserControls
             ListViewItem lv1 = new ListViewItem(new string[] { "ItemName", paramDisplayInfos.ItemName });
             ListViewItem lv2 = new ListViewItem(new string[] { "ItemDescription", paramDisplayInfos.ItemDescription });
             ListViewItem lv3 = new ListViewItem(new string[] { "UsesLoadDashboardExtenderBR", paramDisplayInfos.UsesLoadDashboardExtenderBR.ToString() });
-            ListViewItem lv4 = new ListViewItem(new string[] { "DisplayInfos", "List" });
-            ListViewItem lv5 = new ListViewItem(new string[] { "CustSubstVarsAlreadyResolved", "Dictionary" });
-            ListViewItem lv6 = new ListViewItem(new string[] { "UnresolvedCustSubstVars", "Dictionary" });
-            ListViewItem lv7 = new ListViewItem(new string[] { "CustSubstVarsRepresentedByComponents", "Dictionary" });
+            ListViewItem lv4 = new ListViewItem(new string[] { "DisplayInfos", "{List}" });
+            ListViewItem lv5 = new ListViewItem(new string[] { "CustSubstVarsAlreadyResolved", "{Dictionary}" });
+            ListViewItem lv6 = new ListViewItem(new string[] { "UnresolvedCustSubstVars", "{Dictionary}" });
+            ListViewItem lv7 = new ListViewItem(new string[] { "CustSubstVarsRepresentedByComponents", "{Dictionary}" });
 
             
             this.lvParamDisplayInfos.Items.AddRange(new ListViewItem [] { lv1, lv2, lv3, lv4, lv5, lv6, lv7 });

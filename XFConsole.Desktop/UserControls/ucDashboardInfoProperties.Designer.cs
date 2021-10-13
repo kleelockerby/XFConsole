@@ -91,6 +91,7 @@ namespace XFConsole.Desktop.UserControls
             // splitContainer1
             // 
             this.splitContainer1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.splitContainer1.Cursor = System.Windows.Forms.Cursors.VSplit;
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
             this.splitContainer1.Name = "splitContainer1";
@@ -99,7 +100,7 @@ namespace XFConsole.Desktop.UserControls
             // 
             this.splitContainer1.Panel1.Controls.Add(this.lvParamDisplayInfos);
             this.splitContainer1.Size = new System.Drawing.Size(1040, 451);
-            this.splitContainer1.SplitterDistance = 500;
+            this.splitContainer1.SplitterDistance = 420;
             this.splitContainer1.TabIndex = 0;
             // 
             // lvParamDisplayInfos
@@ -117,7 +118,7 @@ namespace XFConsole.Desktop.UserControls
             this.lvParamDisplayInfos.MultiSelect = false;
             this.lvParamDisplayInfos.Name = "lvParamDisplayInfos";
             this.lvParamDisplayInfos.Scrollable = false;
-            this.lvParamDisplayInfos.Size = new System.Drawing.Size(498, 449);
+            this.lvParamDisplayInfos.Size = new System.Drawing.Size(418, 449);
             this.lvParamDisplayInfos.StateImageList = this.imageList1;
             this.lvParamDisplayInfos.TabIndex = 0;
             this.lvParamDisplayInfos.UseCompatibleStateImageBehavior = false;
